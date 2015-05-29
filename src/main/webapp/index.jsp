@@ -65,9 +65,11 @@
                     </tr>
                     <tr>
                         <td colspan="2">
-                            <input id="textField" name="name" value="Duke" type="text"><br>
+                            <input id="sender" name="sender" value="" type="text"><br>
+                            <input id="receiver" name="receiver" value="" type="text"><br>
+                            <input id="message" name="message" value="" type="text"><br>
                             <input onclick="join();" value="Join" type="button"> 
-                            <input onclick="send_message();" value="Chat" type="button"> 
+                            <input onclick="send_message();" value="Send Message" type="button"> 
                         </td>
                     </tr>
                 </table>

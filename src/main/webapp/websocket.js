@@ -14,12 +14,22 @@ websocket.onerror = function (evt) {
 var output = document.getElementById("output");
 
 function join() {
-    username = textField.value;
-    websocket.send(username + " joined");
+    username = sender.value;
+    var msg = JSON.stringify({
+        "sender": username,
+        "message": "join"});
+
+    websocket.send(msg);
 }
 
 function send_message() {
-    websocket.send(username + ": " + textField.value);
+    var msg = JSON.stringify({
+        "sender": username, 
+        "receiver": receiver.value,
+        "message": message.value});
+    
+    websocket.send(msg);
+//    websocket.send(username + ": " + textField.value);
 }
 
 function onOpen() {
