@@ -16,20 +16,20 @@ var output = document.getElementById("output");
 function join() {
     username = sender.value;
     var msg = JSON.stringify({
-        "sender": username,
-        "message": "join"});
+        "type":"login",
+        "userName": username,
+        "displayName": username});
 
     websocket.send(msg);
 }
 
 function send_message() {
     var msg = JSON.stringify({
-        "sender": username, 
-        "receiver": receiver.value,
+        "type": "message", 
+        "recipient": receiver.value,
         "message": message.value});
     
     websocket.send(msg);
-//    websocket.send(username + ": " + textField.value);
 }
 
 function onOpen() {
@@ -38,10 +38,16 @@ function onOpen() {
 
 function onMessage(evt) {
     console.log("onMessage: " + evt.data);
-    if (evt.data.indexOf("joined") != -1) {
-        userField.innerHTML += evt.data.substring(0, evt.data.indexOf(" joined")) + "\n";
+    var msg = JSON.parse(evt.data);
+    if (msg.type == "login") {
+        userField.innerHTML += msg.displayName + "\n";
+        if (msg.userName == username) {
+            sender.readOnly = true;
+            joinbtn.disabled = true;
+        }
     } else {
-        chatlogField.innerHTML += evt.data + "\n";
+        var wisper = msg.recipient != null ? " wispers " : "";
+        chatlogField.innerHTML += msg.displayName + wisper + " (" + msg.date + "): " + msg.message + "\n";
     }
 }
 
